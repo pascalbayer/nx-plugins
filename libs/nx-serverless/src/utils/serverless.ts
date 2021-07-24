@@ -1,21 +1,19 @@
-import * as Serverless from 'serverless/lib/Serverless'; // 'D:/Projects/opensource/nx-11-test/nx-11-test-serverless/node_modules/serverless/lib/Serverless.js';
-import { ServerlessBaseOptions } from './types';
-import { mergeMap, concatMap } from 'rxjs/operators';
-import { of, Observable, from } from 'rxjs';
-import * as path from 'path';
 import * as fs from 'fs';
-import { ServerlessDeployBuilderOptions } from '../builders/deploy/deploy.impl';
-import { copyBuildOutputToBePackaged, parseArgs } from './copy-asset-files';
-import { ServerlessSlsBuilderOptions } from '../builders/sls/sls.impl';
-// import * as componentsV2  from '@serverless/components';
-import {
-  ExecutorContext,
-  logger,
-  parseTargetString,
-  readTargetOptions,
-} from '@nrwl/devkit';
-import { JsonObject } from '@angular-devkit/core';
+import * as path from 'path';
+import { from, Observable, of } from 'rxjs';
+import { concatMap, mergeMap } from 'rxjs/operators';
+import * as Serverless from 'serverless/lib/Serverless'; // 'D:/Projects/opensource/nx-11-test/nx-11-test-serverless/node_modules/serverless/lib/Serverless.js';
+
 import { BuilderOutput } from '@angular-devkit/architect';
+import { JsonObject } from '@angular-devkit/core';
+// import * as componentsV2  from '@serverless/components';
+import { ExecutorContext, logger, parseTargetString, readTargetOptions } from '@nrwl/devkit';
+
+import { ServerlessDeployBuilderOptions } from '../builders/deploy/deploy.impl';
+import { ServerlessSlsBuilderOptions } from '../builders/sls/sls.impl';
+import { copyBuildOutputToBePackaged, parseArgs } from './copy-asset-files';
+import { ServerlessBaseOptions } from './types';
+
 export class ServerlessWrapper {
   constructor() {}
 
@@ -204,7 +202,7 @@ export async function makeDistFileReadyForPackaging(
   }
   if (!readyToPackaged.success) {
     throw new Error(
-      `readyToPackaged is null something went wrong in 'copyBuildOutputToBePackaged'.`
+      readyToPackaged.error
     );
   }
   return packagePath;

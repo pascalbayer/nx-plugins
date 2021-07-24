@@ -1,15 +1,15 @@
-import { Configuration, ProgressPlugin, Stats } from 'webpack';
-
-import * as ts from 'typescript';
-
 import { LicenseWebpackPlugin } from 'license-webpack-plugin';
-import CircularDependencyPlugin = require('circular-dependency-plugin');
-import ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 import TsConfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
-const CopyWebpackPlugin = require('copy-webpack-plugin');
+import * as ts from 'typescript';
+import { Configuration, ProgressPlugin } from 'webpack';
+
 import { readTsConfig } from '@nrwl/workspace';
+
 import { BuildBuilderOptions } from './types';
 
+import CircularDependencyPlugin = require('circular-dependency-plugin');
+import ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 export const OUT_FILENAME = '[name].js';
 export const OUT_CHUNK_FILENAME = '[name]-[id].js';
 
@@ -33,10 +33,10 @@ function getStatsConfig(options: BuildBuilderOptions) {
     warnings: true,
     errors: true,
     colors: !options.verbose && !options.statsJson,
-    chunks: !options.verbose,
+    chunks: true,
     assets: !!options.verbose,
     chunkOrigins: !!options.verbose,
-    chunkModules: !!options.verbose,
+    chunkModules: true,
     children: !!options.verbose,
     reasons: !!options.verbose,
     version: !!options.verbose,
