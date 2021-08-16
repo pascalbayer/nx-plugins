@@ -77,7 +77,7 @@ export function preparePackageJson(
   let packagerInstance = null;
   if (options.packager && options.packager == 'npm') {
     packagerInstance = NPM;
-  } else if (options.packager && options.packager == 'yarn') {
+  } else if (options.packager && options.packager.toLowerCase() == 'yarn') {
     packagerInstance = Yarn;
   } else if (packager('npm')) {
     packagerInstance = NPM;
