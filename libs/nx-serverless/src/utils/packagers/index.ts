@@ -18,24 +18,23 @@
  */
 
 import * as _ from 'lodash';
-import { NPM } from './npm';
-import { Yarn } from './yarn';
-import { getProjectRoot } from '../normalize';
-import { readJsonFile } from '@nrwl/workspace';
-import {
-  writeJsonFile,
-  writeToFile,
-} from '@nrwl/workspace/src/utils/fileutils';
-import { DependencyResolver } from '../types';
-import { WebpackDependencyResolver } from '../webpack.stats';
-import { DependencyCheckResolver } from '../depcheck';
-import { ServerlessWrapper } from '../serverless';
+import { dirname, join } from 'path';
+import { from, Observable, of } from 'rxjs';
 import { concatMap, switchMap } from 'rxjs/operators';
-import { Observable, of, from } from 'rxjs';
+
 import { BuilderOutput } from '@angular-devkit/architect';
 import { JsonObject } from '@angular-devkit/core';
-import { join, dirname } from 'path';
 import { ExecutorContext, logger } from '@nrwl/devkit';
+import { readJsonFile } from '@nrwl/workspace';
+import { writeJsonFile, writeToFile } from '@nrwl/workspace/src/utils/fileutils';
+
+import { DependencyCheckResolver } from '../depcheck';
+import { getProjectRoot } from '../normalize';
+import { ServerlessWrapper } from '../serverless';
+import { DependencyResolver } from '../types';
+import { WebpackDependencyResolver } from '../webpack.stats';
+import { NPM } from './npm';
+import { Yarn } from './yarn';
 
 const registeredPackagers = {
   npm: NPM,
@@ -75,9 +74,12 @@ export function preparePackageJson(
   logger.info('create a package.json with first level dependencies'); //First create a package.json with first level dependencies
   // Get the packager for the current process.
   let packagerInstance = null;
-  if (options.packager && options.packager.toLowerCase() === 'npm') {
+  if (options.packager && options.packager.toString().toLowerCase() === 'npm') {
     packagerInstance = NPM;
-  } else if (options.packager && options.packager.toLowerCase() === 'yarn') {
+  } else if (
+    options.packager &&
+    options.packager.toString().toLowerCase() === 'yarn'
+  ) {
     packagerInstance = Yarn;
   } else if (packager('npm')) {
     packagerInstance = NPM;
