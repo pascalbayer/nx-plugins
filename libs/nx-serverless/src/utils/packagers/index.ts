@@ -21,6 +21,7 @@ import * as _ from 'lodash';
 import { dirname, join } from 'path';
 import { from, Observable, of } from 'rxjs';
 import { concatMap, switchMap } from 'rxjs/operators';
+import { Stats } from 'webpack';
 
 import { BuilderOutput } from '@angular-devkit/architect';
 import { JsonObject } from '@angular-devkit/core';
@@ -62,7 +63,7 @@ export function preparePackageJson(
     verbose?: boolean;
   },
   context: ExecutorContext,
-  stats: any,
+  stats: Stats.ToJsonOutput,
   resolverName: string,
   tsconfig?: string
 ): Observable<BuilderOutput> {
